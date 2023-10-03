@@ -46,11 +46,11 @@
 
 // initdb();
 
-import { openDB } from 'idb';
+import { openDB } from "idb";
 
-const DB_NAME = 'jate';
+const DB_NAME = "jate";
 const DB_VERSION = 1;
-const DB_STORE_NAME = 'jate';
+const DB_STORE_NAME = "jate";
 
 const initdb = () => {
   return openDB(DB_NAME, DB_VERSION, {
@@ -59,7 +59,10 @@ const initdb = () => {
         console.log(`${DB_STORE_NAME} database already exists`);
         return;
       }
-      db.createObjectStore(DB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+      db.createObjectStore(DB_STORE_NAME, {
+        keyPath: "id",
+        autoIncrement: true,
+      });
       console.log(`${DB_STORE_NAME} database created`);
     },
   });
@@ -72,17 +75,41 @@ export const putDb = async (content) => {
     // Create a connection to the database database and version we want to use.
     // const jateDB = await openDB('jate', 1);
     // Create a new transaction and specify the database and data privileges.
-    const tx = db.transaction(DB_STORE_NAME, 'readwrite');
+    const tx = db.transaction(DB_STORE_NAME, "readwrite");
 
     // Open up the desired object store.
     const store = tx.objectStore(DB_STORE_NAME);
     // Put requires an object as an argument.
-    await store.put({value: content, id: 1});
+    await store.put({ value: content, id: 1 });
     tx.oncomplete;
     // Get confirmation of the request.
-    console.log('Data added to the database', content);
+    console.log("Data added to the database", content);
   } catch (error) {
-    console.error('Error adding data to the database', error);
+    console.error("Error adding data to the database", error);
     throw error;
   }
 };
+
+// TODO: Add logic for a method that gets all the content from the database
+export const getDb = async () => {
+  try {
+    const db = await openDB(DB_NAME, DB_VERSION);
+    // Create a connection to the database database and version we want to use.
+    // const jateDB = await openDB('jate', 1);
+    // Create a new transaction and specify the database and data privileges.
+    const tx = db.transaction(DB_STORE_NAME, "readonly");
+
+    // Open up the desired object store.
+    const store = tx.objectStore(DB_STORE_NAME);
+    const result = await store.get(1);
+    console.log("result", result);
+    // Get confirmation of the request.
+    console.log("result.value", result.value);
+    return result.value;
+  } catch (error) {
+    console.error("Error getting data from the database", error);
+    throw error;
+  }
+};
+
+initdb();
