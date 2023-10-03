@@ -64,3 +64,25 @@ const initdb = () => {
     },
   });
 };
+
+// TODO: Add logic to a method that accepts some content and adds it to the database
+export const putDb = async (content) => {
+  try {
+    const db = await openDB(DB_NAME, DB_VERSION);
+    // Create a connection to the database database and version we want to use.
+    // const jateDB = await openDB('jate', 1);
+    // Create a new transaction and specify the database and data privileges.
+    const tx = db.transaction(DB_STORE_NAME, 'readwrite');
+
+    // Open up the desired object store.
+    const store = tx.objectStore(DB_STORE_NAME);
+    // Put requires an object as an argument.
+    await store.put({value: content, id: 1});
+    tx.oncomplete;
+    // Get confirmation of the request.
+    console.log('Data added to the database', content);
+  } catch (error) {
+    console.error('Error adding data to the database', error);
+    throw error;
+  }
+};
