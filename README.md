@@ -23,7 +23,7 @@ SO THAT I can reliably retrieve them for later use
 
 ## SCREENSHOTS
 
-![Text Editor]()
+![Text Editor](https://github.com/Dantas11/Text-Editor/blob/main/client/src/images/text-editor-1.png)
 
 ## Technology
 
@@ -39,9 +39,7 @@ if-env
 
 After installing the dependencies, open in a integrated terminal and run the application with:
 
-npm run seed
-
-node index.js
+npm run build
 
 Link to webpage: https://lit-lowlands-22320-660660a8c2fc.herokuapp.com/
 
